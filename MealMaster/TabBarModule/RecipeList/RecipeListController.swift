@@ -58,7 +58,7 @@ class RecipeListController: UIViewController {
     let arrayItems = ["American", "European", "Italian", "French", "All"]
     segmentControl = UISegmentedControl(items: arrayItems)
     segmentControl.sizeToFit()
-    segmentControl.selectedSegmentTintColor = UIColor(red: 254/255, green: 220/255, blue: 230/255, alpha: 1)
+    segmentControl.selectedSegmentTintColor = UIColor(red: 239/255, green: 79/255, blue: 65/255, alpha: 1)
     segmentControl.addTarget(self, action: #selector(segmentControlTapped), for: .valueChanged)
     navigationItem.leftBarButtonItem = UIBarButtonItem(customView: segmentControl)
   }

@@ -160,7 +160,7 @@ class DetailViewController: UIViewController {
     safariButton.addTarget(self, action: #selector(didTaped), for: .touchUpInside)
     view.addSubview(safariButton)
     safariButton.snp.makeConstraints { make in
-      make.top.equalTo(instructionsTextView.snp.bottom).offset(10)
+      make.bottom.equalToSuperview().inset(40)
       make.centerX.equalToSuperview()
       make.width.equalTo(240)
       make.height.equalTo(60)
