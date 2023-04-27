@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 protocol AssemblyBuilderProtocol {
-  func createLoginBuilder(router: RouterProtocol) -> UIViewController
+  func createLoginModule(router: RouterProtocol) -> UIViewController
   func createTabbarModule(router: RouterProtocol) -> UITabBarController
   func createListNavContr(router: RouterProtocol) -> UINavigationController
   func createFavoriteNavContr(router: RouterProtocol) -> UINavigationController
@@ -11,9 +11,9 @@ protocol AssemblyBuilderProtocol {
 
 class AssemblyBuilder: AssemblyBuilderProtocol {
   
-  func createLoginBuilder(router: RouterProtocol) -> UIViewController {
+  func createLoginModule(router: RouterProtocol) -> UIViewController {
     let view = LoginViewController()
-    let presenter = LoginPresenter(view: view, router: router)
+    let presenter = LoginPresenter(view: view, router: router, authService: .init())
     view.presenter = presenter
     return view
   }

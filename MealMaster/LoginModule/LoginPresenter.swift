@@ -1,26 +1,85 @@
 import Foundation
 
+struct AlertState {
+  var title: String
+  var message: String
+}
+
+struct LoginState {
+  var alert: AlertState?
+  var isLoading: Bool = false
+}
+
 protocol LoginViewProtocol: AnyObject {
+  func render(state: LoginState)
 }
 
 protocol LoginViewPresenterProtocol: AnyObject {
-  init(view: LoginViewProtocol, router: RouterProtocol)
-  func successLogin()
+  func login(username: String, password: String)
 }
 
-class LoginPresenter: LoginViewPresenterProtocol {
-  weak var view: LoginViewProtocol?
-  var router: RouterProtocol?
+final class LoginPresenter: LoginViewPresenterProtocol {
+  private weak var view: LoginViewProtocol?
+  private let router: RouterProtocol
+  private let authService: AuthService
+  private let mainQueue: DispatchQueue
+  private let alertDelay: Double = 2
   
+  private var state: LoginState = .init() {
+    didSet {
+      view?.render(state: state)
+    }
+  }
   
-  required init(view: LoginViewProtocol, router: RouterProtocol) {
+  init(
+    view: LoginViewProtocol,
+    router: RouterProtocol,
+    authService: AuthService,
+    mainQueue: DispatchQueue = .main
+  ) {
     self.view = view
     self.router = router
+    self.authService = authService
+    self.mainQueue = mainQueue
   }
   
-  
-  func successLogin() {
-    router?.showTabbarVC()
+  func login(username: String, password: String) {
+    state.isLoading = true
+    guard !username.isEmpty else {
+      return alert(title: "Empty field", message: "Enter login")
+    }
+    
+    guard !password.isEmpty else {
+      return alert(title: "Empty field", message: "Enter password")
+    }
+    
+    guard let password = Int(password) else {
+      return alert(title: "Incorrect password", message: "Password is not numeric")
+    }
+    
+    authService.signIn(with: .init(username: username, password: password)) { [weak self] result in
+      guard let self else { return }
+      
+      switch result {
+      case .success:
+        successLogin()
+      case let .failure(error):
+        alert(title: "Login failed", message: error.description)
+      }
+      state.isLoading = false
+    }
   }
   
+  private func alert(title: String, message: String) {
+    state.alert = .init(title: title, message: message)
+    
+    mainQueue.asyncAfter(deadline: .now() + alertDelay) {
+      self.state.alert = nil
+    }
+  }
+  
+  private func successLogin() {
+    alert(title: "Glad to see you again", message: "")
+    router.showTabbarVC()
+  }
 }

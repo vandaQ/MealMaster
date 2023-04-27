@@ -15,6 +15,7 @@
 		F72D64E029A791B00027800F /* NetworkDaraFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72D64DF29A791B00027800F /* NetworkDaraFetcher.swift */; };
 		F730586329D304A600099D7C /* FavoriteBulk.swift in Sources */ = {isa = PBXBuildFile; fileRef = F730586229D304A600099D7C /* FavoriteBulk.swift */; };
 		F75AC47729EEB1C000994433 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F75AC47629EEB1C000994433 /* .gitignore */; };
+		F75AC49C29FA574000994433 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75AC49B29FA574000994433 /* AuthService.swift */; };
 		F7966579299F7121001DD585 /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7966578299F7121001DD585 /* DetailPresenter.swift */; };
 		F796657D299F73FC001DD585 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F796657C299F73FC001DD585 /* DetailViewController.swift */; };
 		F7B0A77F2993DD5C00D81093 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B0A77E2993DD5C00D81093 /* TabBarViewController.swift */; };
@@ -49,6 +50,7 @@
 		F72D64DF29A791B00027800F /* NetworkDaraFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDaraFetcher.swift; sourceTree = "<group>"; };
 		F730586229D304A600099D7C /* FavoriteBulk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteBulk.swift; sourceTree = "<group>"; };
 		F75AC47629EEB1C000994433 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		F75AC49B29FA574000994433 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		F7966578299F7121001DD585 /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
 		F796657C299F73FC001DD585 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F7B0A77E2993DD5C00D81093 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -138,6 +140,14 @@
 				F72CE85729C9D54500B9C7CD /* UserFavoriteSaver.swift */,
 			);
 			path = UserFavoriteSaver;
+			sourceTree = "<group>";
+		};
+		F75AC49A29FA572500994433 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F75AC49B29FA574000994433 /* AuthService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		F796657A299F7128001DD585 /* DetailController */ = {
@@ -238,6 +248,7 @@
 		F7E6411729924AF3003186B1 /* MealMaster */ = {
 			isa = PBXGroup;
 			children = (
+				F75AC49A29FA572500994433 /* Services */,
 				F7B0A785299B6FC700D81093 /* Resources */,
 				F7B0A77D2993AB8800D81093 /* Application */,
 				F7980CDE29DB043B000D976A /* Assembly */,
@@ -395,6 +406,7 @@
 				F72CE85829C9D54500B9C7CD /* UserFavoriteSaver.swift in Sources */,
 				F7B0A787299B706B00D81093 /* Router.swift in Sources */,
 				F715717129ACAAC4005486BE /* DetailCollectionViewCell.swift in Sources */,
+				F75AC49C29FA574000994433 /* AuthService.swift in Sources */,
 				F7B0A7842996387600D81093 /* FavoriteListViewController.swift in Sources */,
 				F7966579299F7121001DD585 /* DetailPresenter.swift in Sources */,
 				F7B0A77F2993DD5C00D81093 /* TabBarViewController.swift in Sources */,
@@ -540,7 +552,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UMVNYGCHN5;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealMaster/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -568,7 +580,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UMVNYGCHN5;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MealMaster/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

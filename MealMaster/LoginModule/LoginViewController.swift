@@ -1,14 +1,13 @@
 import UIKit
 import SnapKit
 
-class LoginViewController: UIViewController {
-  
-  var nameTextField = UITextField()
-  var passTextField = UITextField()
-  var logInButton = UIButton()
-  var signUpButton = UIButton()
-  var helloLabel = UILabel()
-  var infoLabel = UILabel()
+final class LoginViewController: UIViewController {
+  private var nameTextField = UITextField()
+  private var passTextField = UITextField()
+  private var logInButton = UIButton(type: .system)
+  private var signUpButton = UIButton(type: .system)
+  private var helloLabel = UILabel()
+  private var infoLabel = UILabel()
   
   var presenter: LoginViewPresenterProtocol!
   
@@ -84,16 +83,17 @@ class LoginViewController: UIViewController {
   }
   
   private func configureButtons() {
-    
     logInButton.translatesAutoresizingMaskIntoConstraints = false
-    logInButton = UIButton(type: .system)
     logInButton.backgroundColor  = UIColor(red: 239/255, green: 79/255, blue: 65/255, alpha: 1)
     logInButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 23)
     logInButton.setTitleColor(.white, for: .normal)
     logInButton.layer.cornerRadius = 20
     logInButton.setTitle("LogIn", for: .normal)
+    
     logInButton.addTarget(self, action: #selector(lognIn), for: .touchUpInside)
+    
     view.addSubview(logInButton)
+    
     logInButton.snp.makeConstraints { make in
       make.top.equalTo(passTextField).inset(90)
       make.centerX.equalToSuperview()
@@ -102,7 +102,6 @@ class LoginViewController: UIViewController {
     }
     
     signUpButton.translatesAutoresizingMaskIntoConstraints = false
-    signUpButton = UIButton(type: .system)
     signUpButton.backgroundColor = .white
     signUpButton.layer.cornerRadius = 20
     signUpButton.layer.borderWidth = 1
@@ -127,31 +126,10 @@ class LoginViewController: UIViewController {
   
   //MARK: - Buttons
   @objc func lognIn(_ sender: UIButton) {
-    let name = nameTextField.text
-    let pass = passTextField.text
+    let name = nameTextField.text ?? ""
+    let pass = passTextField.text ?? ""
     
-    if name!.isEmpty && pass!.isEmpty {
-      alert(title: "Empty fields", massage: "Enter login and password", style: .alert)
-    } else if name!.isEmpty {
-      alert(title: "Empty field", massage: "Enter login", style: .alert)
-    } else if pass!.isEmpty {
-      alert(title: "Empty field", massage: "Enter password", style: .alert)
-    }
-    
-    if !name!.isEmpty && !pass!.isEmpty {
-      if UserSettings.shared.userExists(nickname: name ?? "0", password: integer(from: passTextField)) {
-        alert(title: "Glad to see you again", massage: "", style: .alert)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
-          self.presenter.successLogin()
-        }
-      } else if UserSettings.shared.nickExist(nickname: name ?? "0") {
-        alert(title: "Incorrect password", massage: "Please try again", style: .alert)
-      } else if UserSettings.shared.passExist(pass: integer(from: passTextField)) {
-        alert(title: "Incorrect login", massage: "Please try again", style: .alert)
-      } else {
-        alert(title: "User with such login and password was not found", massage: "Please try again", style: .alert)
-      }
-    }
+    presenter.login(username: name, password: pass)
   }
   
   @objc func signUp(_ sender: UIButton) {
@@ -166,7 +144,7 @@ class LoginViewController: UIViewController {
         UserSettings.shared.addUser(nickname: name ?? "0", password: integer(from: passTextField))
         alert(title: "Registration successful", massage: "", style: .alert)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
-          self.presenter.successLogin()
+//          self.presenter.successLogin()
         }
         passTextField.resignFirstResponder()
         print("signup")
@@ -189,6 +167,12 @@ class LoginViewController: UIViewController {
     let action = UIAlertAction(title: "Ок", style: .default)
     alert.addAction(action)
     self.present(alert, animated: true)
+  }
+  
+  func dismissAlert() {
+    if let alert = presentedViewController as? UIAlertController {
+      alert.dismiss(animated: true)
+    }
   }
 }
 
@@ -226,4 +210,12 @@ extension LoginViewController: UITextFieldDelegate {
   }
 }
 
-extension LoginViewController: LoginViewProtocol {}
+extension LoginViewController: LoginViewProtocol {
+  func render(state: LoginState) {
+    if let alertState = state.alert {
+      alert(title: alertState.title, massage: alertState.message, style: .alert)
+    } else {
+      dismissAlert()
+    }
+  }
+}

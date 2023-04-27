@@ -38,3 +38,5 @@ final class UserSettings {
   }
 }
 
+extension UserSettings: UserSettingsType {
+}

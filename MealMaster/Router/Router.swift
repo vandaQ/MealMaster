@@ -25,7 +25,7 @@ class Router: RouterProtocol {
   
   func showLogin() {
     if let navigationController = navigationController {
-      guard let loginVC = assemblyBuilder?.createLoginBuilder(router: self) else { return }
+      guard let loginVC = assemblyBuilder?.createLoginModule(router: self) else { return }
       navigationController.viewControllers = [loginVC]
     }
   }
@@ -49,7 +49,7 @@ class Router: RouterProtocol {
   
   func popToRoot() {
     if let navigationController = navigationController {
-      guard let loginVC = assemblyBuilder?.createLoginBuilder(router: self) else { return }
+      guard let loginVC = assemblyBuilder?.createLoginModule(router: self) else { return }
       navigationController.setViewControllers([loginVC], animated: false)
     }
   }
