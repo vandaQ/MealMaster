@@ -11,7 +11,7 @@ final class UserSettings {
     static let userDictionaryKey = "users"
   }
   
-  func getUserDictionary() -> Dictionary<String, Int> {
+  private func getUserDictionary() -> Dictionary<String, Int> {
     let users = userDefaults.value(forKey: KeysDefaults.userDictionaryKey) as? Dictionary<String, Int> ?? Dictionary<String, Int>()
     return users
   }

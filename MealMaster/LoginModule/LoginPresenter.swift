@@ -16,6 +16,7 @@ protocol LoginViewProtocol: AnyObject {
 
 protocol LoginViewPresenterProtocol: AnyObject {
   func login(username: String, password: String)
+  func registration(username: String, password: String)
 }
 
 final class LoginPresenter: LoginViewPresenterProtocol {
@@ -70,6 +71,33 @@ final class LoginPresenter: LoginViewPresenterProtocol {
     }
   }
   
+  func registration(username: String, password: String) {
+    guard !username.isEmpty else {
+      return alert(title: "Empty field", message: "Enter login")
+    }
+    
+    guard !password.isEmpty else {
+      return alert(title: "Empty field", message: "Enter password")
+    }
+    
+    guard let password = Int(password) else {
+      return alert(title: "Incorrect password", message: "Password is not numeric")
+    }
+    
+    authService.signUp(with: .init(username: username, password: password)) { [weak self] result in
+      guard let self else { return }
+      
+      switch result {
+      case .success():
+        authService.addUser(with: .init(username: username, password: password))
+        successRegistration()
+      case let .failure(error):
+        alert(title: "Enter new information or log in", message: error.description)
+      }
+    }
+  }
+  
+  
   private func alert(title: String, message: String) {
     state.alert = .init(title: title, message: message)
     
@@ -80,6 +108,16 @@ final class LoginPresenter: LoginViewPresenterProtocol {
   
   private func successLogin() {
     alert(title: "Glad to see you again", message: "")
-    router.showTabbarVC()
+    mainQueue.asyncAfter(deadline: .now() + alertDelay) {
+      self.router.showTabbarVC()
+    }
+  }
+  
+  private func successRegistration() {
+    alert(title: "Registration successful", message: "")
+    
+    mainQueue.asyncAfter(deadline: .now() + alertDelay) {
+      self.router.showTabbarVC()
+    }
   }
 }

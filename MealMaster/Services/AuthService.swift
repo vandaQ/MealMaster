@@ -7,10 +7,12 @@ struct SignInCredentials {
 
 protocol UserSettingsType {
   func userExists(nickname: String, password: Int) -> Bool
+  func addUser(nickname: String, password: Int)
 }
 
 enum AuthServiceError: Error {
   case userNotFound
+  case userExists
 }
 
 extension AuthServiceError: CustomStringConvertible {
@@ -18,6 +20,8 @@ extension AuthServiceError: CustomStringConvertible {
     switch self {
     case .userNotFound:
       return "User with such login and password was not found"
+    case .userExists:
+     return "A user with this information is already registered"
     }
   }
 }
@@ -39,4 +43,21 @@ final class AuthService {
       completion(.failure(.userNotFound))
     }
   }
+  
+  func signUp(
+    with credentials: SignInCredentials,
+    completion: @escaping (Result<Void, AuthServiceError>) -> Void
+  ) {
+    if userSettings.userExists(nickname: credentials.username, password: credentials.password) {
+      completion(.failure(.userExists))
+    } else {
+      completion(.success(()))
+    }
+  }
+  
+  func addUser(with crefentials: SignInCredentials) {
+    userSettings.addUser(nickname: crefentials.username, password: crefentials.password)
+  }
+  
+
 }

@@ -133,31 +133,10 @@ final class LoginViewController: UIViewController {
   }
   
   @objc func signUp(_ sender: UIButton) {
-    let name = nameTextField.text
-    let pass = passTextField.text
-    
-    if !name!.isEmpty && !pass!.isEmpty {
+    let name = nameTextField.text ?? ""
+    let pass = passTextField.text ?? ""
       
-      if UserSettings.shared.userExists(nickname: name ?? "0", password: integer(from: passTextField)) {
-        alert(title: "A user with this information is already registered", massage: "Enter new information or log in", style: .alert)
-      } else {
-        UserSettings.shared.addUser(nickname: name ?? "0", password: integer(from: passTextField))
-        alert(title: "Registration successful", massage: "", style: .alert)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
-//          self.presenter.successLogin()
-        }
-        passTextField.resignFirstResponder()
-        print("signup")
-      }
-    }
-    
-    if name!.isEmpty && pass!.isEmpty {
-      alert(title: "Empty fields", massage: "Enter login and password", style: .alert)
-    } else if name!.isEmpty {
-      alert(title: "Empty field", massage: "Enter login", style: .alert)
-    } else if pass!.isEmpty {
-      alert(title: "Empty field", massage: "Enter password", style: .alert)
-    }
+    presenter.registration(username: name, password: pass)
   }
   
   
@@ -198,15 +177,6 @@ extension LoginViewController: UITextFieldDelegate {
   
   @objc func dismissKeyboard() {
     view.endEditing(true)
-  }
-  
-  
-  //MARK: - convertToInt
-  func integer(from textField: UITextField) -> Int {
-    guard let text = textField.text, let number = Int(text) else {
-      return 0
-    }
-    return number
   }
 }
 
