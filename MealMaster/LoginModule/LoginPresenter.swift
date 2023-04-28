@@ -89,7 +89,6 @@ final class LoginPresenter: LoginViewPresenterProtocol {
       
       switch result {
       case .success():
-        authService.addUser(with: .init(username: username, password: password))
         successRegistration()
       case let .failure(error):
         alert(title: "Enter new information or log in", message: error.description)

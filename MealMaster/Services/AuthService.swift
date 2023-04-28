@@ -51,7 +51,7 @@ final class AuthService {
     if userSettings.userExists(nickname: credentials.username, password: credentials.password) {
       completion(.failure(.userExists))
     } else {
-      completion(.success(()))
+      completion(.success((addUser(with: credentials))))
     }
   }
   
